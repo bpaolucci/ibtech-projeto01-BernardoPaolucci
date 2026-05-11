@@ -1,0 +1,29 @@
+/* ===== Reset ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+:root {
+  --fonte-principal: 'Rajdhani', sans-serif;
+  --cor-fundo: #0a0a0f;
+  --cor-fundo-secundario: #12121a;
+  --cor-texto: #e0e0e0;
+
+  
+  --cor-primaria: #00f0ff;    
+  --cor-secundaria: #ff2d78;  
+  --cor-terciaria: #b44fff;   
+
+  
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-lg: 1.5rem;
+  --fs-xl: 2.5rem;
+}
+/* ===== Base ===== */
+body {
+  font-family: var(--fonte-principal);
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+}
