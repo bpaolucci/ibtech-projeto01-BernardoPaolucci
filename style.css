@@ -57,20 +57,24 @@ section{
 }
 section h2{
   font-size: var(--fs-lg);
-  color: var(--cor-primaria);
+  color: var(--cor-secundaria);
   margin-bottom: 1.5rem;
 }
 #hero{
   text-align: center;
   padding: 4rem;
 }
+#hero h1{
+  color: var(--cor-primaria);
+}
+
 #hero img {
   border-radius: 50%;
   width: 150px; height: 150px;
-  border: 3px solid var(--cor-primaria)
+  border: 3px solid var(--cor-terciaria)
 
 }
 #hero p{
   font-size: var(--fs-lg);
-  color: var(--cor-secundaria);
+  color: var(--cor-terciaria);
 }
