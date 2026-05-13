@@ -30,6 +30,8 @@ body {
   margin: 0 auto;
   padding: 0 2rem;
 }
+
+
 header{
     background-color: var(--cor-fundo-secundario);
     padding: 1rem 2rem;
@@ -66,15 +68,63 @@ section h2{
 }
 #hero h1{
   color: var(--cor-primaria);
-}
+  text-shadow: 0 0 10px var(--cor-primaria),
+              0 0 20px var(--cor-primaria),
+              0 0 40px var(--cor-primaria);
+                
+} 
 
 #hero img {
   border-radius: 50%;
   width: 150px; height: 150px;
-  border: 3px solid var(--cor-terciaria)
+  border: 3px solid var(--cor-terciaria);
+  box-shadow: 0 0 10px var(--cor-terciaria),
+              0 0 20px var(--cor-terciaria);
+  
 
 }
 #hero p{
   font-size: var(--fs-lg);
   color: var(--cor-terciaria);
+}
+#sobre p{
+  font-size: - var(--fs-base);
+  margin-bottom: 2rem;
+  line-height: 1.5rem;
+}
+#habilidades h2{
+text-align: center;
+}
+@keyframes scroll-marquee{
+  0%{transform: translateX(0%);}
+  100%{transform: translateX(-100%);}
+}
+.marquee{
+  overflow: hidden;
+  display: flex;
+ 
+  width: 100%;
+  height: 50px;
+  
+}
+
+.marquee ul{
+  display: flex;
+  gap: 2rem;
+  list-style-type: none;
+  animation: scroll-marquee 20s linear infinite; 
+  padding-right: 2rem;
+  flex-shrink: 0;
+  min-width: 100%;
+  
+}
+.marquee li{
+  font-weight: 700;
+  font-size: 1.65rem;
+  padding: 0.5rem 1rem;
+  color: var(--cor-terciaria);
+  white-space: nowrap;
+  border: 1px solid var(--cor-terciaria);
+  background-color: var(--cor-fundo-secundario);
+  border-radius: 4px;
 }
