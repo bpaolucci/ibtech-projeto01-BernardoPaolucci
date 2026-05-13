@@ -11,7 +11,7 @@
   --cor-texto: #e0e0e0;
 
   
-  --cor-primaria: #00f0ff;    
+  --cor-primaria: #FF6700;    
   --cor-secundaria: #ff2d78;  
   --cor-terciaria: #b44fff;   
 
@@ -51,4 +51,26 @@ nav a{
 }
 #tema-btn{
   margin-left: 3rem;
+}
+section{
+  padding: 3rem 0;
+}
+section h2{
+  font-size: var(--fs-lg);
+  color: var(--cor-primaria);
+  margin-bottom: 1.5rem;
+}
+#hero{
+  text-align: center;
+  padding: 4rem;
+}
+#hero img {
+  border-radius: 50%;
+  width: 150px; height: 150px;
+  border: 3px solid var(--cor-primaria)
+
+}
+#hero p{
+  font-size: var(--fs-lg);
+  color: var(--cor-secundaria);
 }
