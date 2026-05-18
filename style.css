@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
 }
+
 :root {
   --fonte-principal: 'Rajdhani', sans-serif;
 
@@ -18,6 +19,15 @@
   --fs-base: 1rem;
   --fs-lg: 1.5rem;
   --fs-xl: 2.5rem;
+}
+/* ===== Tema Claro — Mansão Wayne ===== */
+.tema-claro {
+  --cor-fundo: #f0e6d3;
+  --cor-fundo-secundario: #ddd0b8;
+  --cor-texto: #1a1a1a;
+  --cor-primaria: #8b6914;
+  --cor-secundaria: #5a4a2a;
+  --cor-terciaria: #c0392b;
 }
 
 /* ===== Base ===== */
@@ -49,9 +59,28 @@ nav ul{
 nav a{
     text-decoration: none;
     color: var(--cor-secundaria);
+    display: inline-block;
+   transition: transform 0.3s ease, color 0.3s ease;
+}
+nav a:hover{
+  color: var(--cor-terciaria);
+  transform: translateY(-2px);
+
 }
 #tema-btn{
+  
+  background: var(--cor-secundaria);
+  border: 2px solid var(--cor-terciaria);
+  border-radius: 4px;
+  padding: 0.1rem 0.2rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
   margin-left: 3rem;
+
+}
+#tema-btn:hover {
+  border-color: var(--cor-primaria);
 }
 section{
   padding: 3rem 0;
@@ -214,4 +243,79 @@ text-align: center;
   margin: 2rem auto 0;
   border: 2px solid var(--cor-terciaria);
   box-shadow: 0 0 10px var(--cor-terciaria);
+}
+#contato ul{
+  list-style-type: none;
+  padding: 0;
+}
+
+#contato li{
+  margin-bottom: 1rem;
+  color: var(--cor-primaria);
+  
+  font-size: var(--fs-lg);
+}
+#contato a{
+  color: var(--cor-primaria);
+  text-decoration: none;
+  
+  transition: color 0.3s ease;
+}
+
+#contato a:hover{
+  color:var(--cor-terciaria)
+}
+#contato button {
+  background-color: var(--cor-primaria);
+  color: var(--cor-fundo);
+  border: none;
+  padding: 0.5rem 1.5rem;
+  font-family: var(--fonte-principal);
+  font-size: var(--fs-base);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+#contato button:hover {
+  background-color: var(--cor-secundaria);
+}
+/* ===== Footer ===== */
+footer {
+  text-align: center;
+  padding: 2rem 0;
+  color: var(--cor-secundaria);
+  font-size: var(--fs-sm);
+  border-top: 1px solid var(--cor-primaria);
+  margin-top: 3rem;
+}
+/* ===== Responsividade ===== */
+@media (max-width: 768px) {
+
+  nav {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .cards-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #midia .card {
+    width: 90%;
+  }
+
+  #midia iframe {
+    width: 100%;
+    height: 250px;
+  }
+
 }
