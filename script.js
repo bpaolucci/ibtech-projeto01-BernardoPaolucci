@@ -85,3 +85,70 @@ document.addEventListener('keydown', (e) => {
     menu.classList.remove('menu-aberto');
   }
 });
+
+// ===== Bat Caverna =====
+const caverna = document.getElementById('batcaverna');
+const cav = caverna.getContext('2d');
+
+caverna.width = window.innerWidth;
+caverna.height = window.innerHeight;
+
+window.addEventListener('resize', () => {
+  caverna.width = window.innerWidth;
+  caverna.height = window.innerHeight;
+});
+function desenharFundo() {
+  const temaClaro = document.documentElement.classList.contains('tema-claro');
+  
+  const gradiente = cav.createLinearGradient(0, 0, 0, caverna.height);
+  
+  if (temaClaro) {
+    gradiente.addColorStop(0, '#f0e6d3');
+    gradiente.addColorStop(0.6, '#e8d5b7');
+    gradiente.addColorStop(1, '#ddd0b8');
+  } else {
+    gradiente.addColorStop(0, '#0a0a0f');
+    gradiente.addColorStop(0.6, '#111118');
+    gradiente.addColorStop(1, '#1a1a2e');
+  }
+
+  cav.fillStyle = gradiente;
+  cav.fillRect(0, 0, caverna.width, caverna.height);
+}
+function animar() {
+  desenharFundo();
+  requestAnimationFrame(animar);
+}
+
+animar();
+// ===== Easter Egg — Coringa =====
+const avatar = document.getElementById('avatar');
+let cliques = 0;
+
+avatar.addEventListener('click', () => {
+  cliques++;
+
+  if (cliques === 7) {
+    cliques = 0;
+
+    const coringa = document.createElement('img');
+    coringa.src = 'assets/coringa.jpg';
+    coringa.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      z-index: 9999;
+      
+      border-radius: 100%;
+      cursor: pointer;
+    `;
+
+    document.body.appendChild(coringa);
+
+    setTimeout(() => {
+      coringa.remove();
+    }, 2000);
+  }
+});
