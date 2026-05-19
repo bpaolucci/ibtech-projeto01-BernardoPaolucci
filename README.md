@@ -1,5 +1,8 @@
 # Cartão de Visita Pessoal — Bernardo Paolucci
 
+## Link
+ https://bpaolucci.github.io/ibtech-projeto01-BernardoPaolucci/
+
 ## Sobre o projeto
 Página pessoal desenvolvida como Projeto 01 da trilha Frontend da IbTech 2026.1.
 Um cartão de visita na internet com identidade visual temática Batman/Gotham City.
