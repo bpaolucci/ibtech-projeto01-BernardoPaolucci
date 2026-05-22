@@ -116,8 +116,7 @@ function desenharFundo() {
   cav.fillRect(0, 0, caverna.width, caverna.height);
 }
 function animar() {
-  desenharFundo();
-  requestAnimationFrame(animar);
+  cav.clearRect(0, 0, caverna.width, caverna.height);
 }
 
 animar();
