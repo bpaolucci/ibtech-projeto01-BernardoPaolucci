@@ -97,30 +97,215 @@ window.addEventListener('resize', () => {
   caverna.width = window.innerWidth;
   caverna.height = window.innerHeight;
 });
-function desenharFundo() {
+// ===== Chuva de Gotham =====
+const gotas = [];
+
+for (let i = 0; i < 150; i++) {
+  gotas.push({
+    x: Math.random() * caverna.width,
+    y: Math.random() * caverna.height,
+    comprimento: Math.random() * 20 + 10,
+    velocidade: Math.random() * 6 + 8,
+    opacidade: Math.random() * 0.2 + 0.1
+  });
+}
+
+function desenharChuva() {
   const temaClaro = document.documentElement.classList.contains('tema-claro');
-  
-  const gradiente = cav.createLinearGradient(0, 0, 0, caverna.height);
-  
-  if (temaClaro) {
-    gradiente.addColorStop(0, '#f0e6d3');
-    gradiente.addColorStop(0.6, '#e8d5b7');
-    gradiente.addColorStop(1, '#ddd0b8');
-  } else {
-    gradiente.addColorStop(0, '#0a0a0f');
-    gradiente.addColorStop(0.6, '#111118');
-    gradiente.addColorStop(1, '#1a1a2e');
-  }
+  if (temaClaro) return;
+
+  gotas.forEach(g => {
+    cav.beginPath();
+    cav.moveTo(g.x, g.y);
+    cav.lineTo(g.x - 2, g.y + g.comprimento);
+    cav.strokeStyle = `rgba(180, 200, 255, ${g.opacidade})`;
+    cav.lineWidth = 1;
+    cav.stroke();
+
+    g.y += g.velocidade;
+
+    if (g.y > caverna.height) {
+      g.y = -g.comprimento;
+      g.x = Math.random() * caverna.width;
+    }
+  });
+}
+
+let brilhoFlash = 0; 
+
+function desenharRaio() {
+  if (brilhoFlash <= 0) return;
+
+  const gradiente = cav.createLinearGradient(0, 0, 0, caverna.height * 0.2);
+  gradiente.addColorStop(0, `rgba(255, 255, 255, ${brilhoFlash})`);
+  gradiente.addColorStop(1, 'rgba(255, 255, 255, 0)');
 
   cav.fillStyle = gradiente;
   cav.fillRect(0, 0, caverna.width, caverna.height);
 }
+function atualizarRaio() {
+  if (brilhoFlash > 0) {
+    brilhoFlash -= 0.03; 
+    if (brilhoFlash < 0) brilhoFlash = 0;
+  }
+}
+function umEstalo() {
+  brilhoFlash = Math.random() * 0.4 + 0.5; 
+}
+
+function dispararRaio() {
+  const piscadas = Math.floor(Math.random() * 3) + 1; 
+  for (let i = 0; i < piscadas; i++) {
+    setTimeout(umEstalo, i * 150); // um estalo a cada 150ms
+  }
+}
+
+function agendarRaio() {
+  const espera = Math.random() * 7000 + 4000; // entre 4s e 11s
+  setTimeout(() => {
+    const temaClaro = document.documentElement.classList.contains('tema-claro');
+    if (!temaClaro) dispararRaio();
+    agendarRaio(); // reagenda o próximo
+  }, espera);
+}
+
+agendarRaio();
+
+const morcegos = [];
+
+function criarMorcegos() {
+  for (let i = 0; i < 100; i++) {
+    morcegos.push({
+      x: Math.random() * caverna.width,
+      y: caverna.height + Math.random() * 200,
+      velocidade: Math.random() * 4 + 8,
+      velocidadeX: Math.random() * 3 - 1.5,
+      tamanho: Math.random() * 15 + 15,
+      faseAsa: Math.random() * Math.PI * 2,
+      velocidadeAsa: Math.random() * 1 + 0.5
+    });
+  }
+}
+
+function desenharMorcego(m) {
+  const balanco = Math.sin(m.faseAsa) * m.tamanho * 0.5;
+
+  cav.fillStyle = 'rgba(0, 0, 0, 0.85)';
+  cav.beginPath();
+
+  // asa esquerda
+  cav.moveTo(m.x, m.y);
+  cav.quadraticCurveTo(m.x - m.tamanho, m.y + balanco, m.x - m.tamanho * 1.5, m.y);
+  cav.quadraticCurveTo(m.x - m.tamanho, m.y + m.tamanho * 0.4, m.x, m.y);
+
+  // asa direita
+  cav.moveTo(m.x, m.y);
+  cav.quadraticCurveTo(m.x + m.tamanho, m.y + balanco, m.x + m.tamanho * 1.5, m.y);
+  cav.quadraticCurveTo(m.x + m.tamanho, m.y + m.tamanho * 0.4, m.x, m.y);
+
+  cav.fill();
+
+  cav.beginPath();
+  cav.ellipse(m.x, m.y, m.tamanho * 0.18, m.tamanho * 0.4, 0, 0, Math.PI * 2);
+  cav.fill();
+}
+function atualizarMorcego(m) {
+  m.y -= m.velocidade;
+  m.x += m.velocidadeX + Math.sin(m.faseAsa) * 0.5;
+  m.faseAsa += m.velocidadeAsa;
+}
+function desenharMorcegos(){
+  morcegos.forEach(m => {
+    atualizarMorcego(m);
+    desenharMorcego(m);
+  });
+   for (let i = morcegos.length - 1; i >= 0; i--) {
+    const m = morcegos[i];
+    if (m.y < -100 || m.x < -100 || m.x > caverna.width + 100) {
+      morcegos.splice(i, 1);
+    }
+  }
+}
+function desenharRelampago() {
+  let x = Math.random() * caverna.width; // ponto de partida no topo
+  let y = 0;
+
+  cav.beginPath();
+  cav.moveTo(x, y);
+
+  while (y < caverna.height) {
+    x += Math.random() * 60 - 30; // desloca de -30 a +30 nos lados
+    y += Math.random() * 40 + 20; // desce de 20 a 60
+    cav.lineTo(x, y);
+  }
+
+  cav.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+  cav.lineWidth = 3;
+  cav.stroke();
+}
+
+
+const relampagos = [];
+
+function criarRelampago() {
+  const pontos = [];
+  let x = Math.random() * caverna.width;
+  let y = 0;
+  pontos.push({ x, y });
+
+  while (y < caverna.height) {
+    x += Math.random() * 60 - 30;
+    y += Math.random() * 40 + 20;
+    pontos.push({ x, y });
+  }
+
+  relampagos.push({ pontos: pontos, vida: 12 });
+}
+
+function desenharRelampagos() {
+  relampagos.forEach(r => {
+    cav.beginPath();
+    cav.moveTo(r.pontos[0].x, r.pontos[0].y);
+
+    for (let i = 1; i < r.pontos.length; i++) {
+      cav.lineTo(r.pontos[i].x, r.pontos[i].y);
+    }
+
+    cav.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+    cav.lineWidth = 3;
+    cav.stroke();
+
+    r.vida--;
+  });
+
+  
+  for (let i = relampagos.length - 1; i >= 0; i--) {
+    if (relampagos[i].vida <= 0) {
+      relampagos.splice(i, 1);
+    }
+  }
+}
+
+function dispararRaioForte() {
+  for (let i = 0; i < 6; i++) {
+    setTimeout(() => {
+      brilhoFlash = Math.random() * 0.3 + 0.7; 
+    }, i * 120);
+  }
+}
 function animar() {
   cav.clearRect(0, 0, caverna.width, caverna.height);
+  desenharChuva();
+  atualizarRaio();
+  desenharRaio();
+  desenharRelampagos();
+  desenharMorcegos();
+   requestAnimationFrame(animar);
 }
 
 animar();
-// ===== Easter Egg — Coringa =====
+
+// ===== Easter Egg — Coringa + Morcegos + Raios =====
 const avatar = document.getElementById('avatar');
 let cliques = 0;
 
@@ -130,6 +315,11 @@ avatar.addEventListener('click', () => {
   if (cliques === 7) {
     cliques = 0;
 
+  
+    const temaClaro = document.documentElement.classList.contains('tema-claro');
+    if(temaClaro) return;
+
+    
     const coringa = document.createElement('img');
     coringa.src = 'assets/coringa.jpg';
     coringa.style.cssText = `
@@ -139,15 +329,20 @@ avatar.addEventListener('click', () => {
       transform: translate(-50%, -50%);
       width: 300px;
       z-index: 9999;
-      
       border-radius: 100%;
       cursor: pointer;
     `;
-
     document.body.appendChild(coringa);
+    setTimeout(() => coringa.remove(), 2000);
 
-    setTimeout(() => {
-      coringa.remove();
-    }, 2000);
-  }
+    
+   
+      criarMorcegos();        
+      dispararRaioForte();    
+      
+      for (let i = 0; i < 5; i++) {
+        setTimeout(criarRelampago, i * 200);
+      }
+    }
+  
 });
