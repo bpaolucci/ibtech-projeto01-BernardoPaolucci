@@ -9,11 +9,13 @@ function aplicarTema(claro){
         iconeEscuro.style.display = 'none';
         iconeClaro.style.display = 'inline';
         document.getElementById('avatar').src = 'assets/bruce.jpg';
+        temaBTN.setAttribute('aria-label', 'Mudar para tema escuro');
     } else {
     document.documentElement.classList.remove('tema-claro');
     iconeEscuro.style.display = 'inline';
     iconeClaro.style.display = 'none';
     document.getElementById('avatar').src = 'assets/avatar.jpg';
+    temaBTN.setAttribute('aria-label', 'Mudar para tema claro');
   }
 }
 const temaSalvo = localStorage.getItem('tema');
@@ -36,9 +38,13 @@ temaBTN.addEventListener('click', () => {
 // ===== Copiar Email =====
 const copiarBtn = document.getElementById('copiar-email');
 
-copiarBtn.addEventListener('click', () => {
-  navigator.clipboard.writeText('bepaolucci@gmail.com');
+copiarBtn.addEventListener('click', async () => {
+  try{
+    await navigator.clipboard.writeText('bepaolucci@gmail.com');
   copiarBtn.textContent = '✓ Copiado!';
+  }catch {
+    copiarBtn.textContent = 'Erro :(';
+  }
   setTimeout(() => {
     copiarBtn.textContent = 'Copiar email';
   }, 2000);
@@ -69,13 +75,15 @@ const menuBtn = document.getElementById('menu-btn');
 const menu = document.getElementById('menu');
 
 menuBtn.addEventListener('click', () => {
-  menu.classList.toggle('menu-aberto');
+ const aberto = menu.classList.toggle('menu-aberto');
+ menuBtn.setAttribute('aria-expanded', aberto);
 });
 
 
 document.addEventListener('click', (e) => {
   if (!menu.contains(e.target) && e.target !== menuBtn) {
     menu.classList.remove('menu-aberto');
+     menuBtn.setAttribute('aria-expanded', 'false');
   }
 });
 
@@ -83,6 +91,7 @@ document.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     menu.classList.remove('menu-aberto');
+    menuBtn.setAttribute('aria-expanded', 'false');
   }
 });
 
@@ -293,6 +302,51 @@ function dispararRaioForte() {
     }, i * 120);
   }
 }
+
+function modoCoringa() {
+  const raiz = document.documentElement;
+  raiz.style.setProperty('--cor-fundo', '#1a0a1f');
+  raiz.style.setProperty('--cor-fundo-secundario', '#2d1438');
+  raiz.style.setProperty('--cor-primaria', '#39ff14');
+  raiz.style.setProperty('--cor-secundaria', '#9d4edd');
+  raiz.style.setProperty('--cor-terciaria', '#39ff14');
+  raiz.style.setProperty('--cor-texto', '#39ff14');
+}
+function sairCoringa() {
+  const raiz = document.documentElement;
+  raiz.style.removeProperty('--cor-fundo');
+  raiz.style.removeProperty('--cor-fundo-secundario');
+  raiz.style.removeProperty('--cor-primaria');
+  raiz.style.removeProperty('--cor-secundaria');
+  raiz.style.removeProperty('--cor-terciaria');
+  raiz.style.removeProperty('--cor-texto');
+}
+
+function glitchAvatar() {
+  const avatar = document.getElementById('avatar');
+  const inicio = Date.now();
+  let mostrandoCoringa = false;
+
+  function piscar() {
+    if (Date.now() - inicio > 3000) {
+      avatar.src = 'assets/avatar.jpg';
+      return;
+    }
+
+    mostrandoCoringa = !mostrandoCoringa;
+    avatar.src = mostrandoCoringa ? 'assets/coringa.jpg' : 'assets/avatar.jpg';
+
+    const tempo = mostrandoCoringa
+      ? Math.random() * 150 + 100   
+      : Math.random() * 70 + 30;
+      setTimeout(piscar, tempo);
+      
+      
+  }
+
+  piscar();
+}
+
 function animar() {
   cav.clearRect(0, 0, caverna.width, caverna.height);
   desenharChuva();
@@ -320,25 +374,15 @@ avatar.addEventListener('click', () => {
     if(temaClaro) return;
 
     
-    const coringa = document.createElement('img');
-    coringa.src = 'assets/coringa.jpg';
-    coringa.style.cssText = `
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 300px;
-      z-index: 9999;
-      border-radius: 100%;
-      cursor: pointer;
-    `;
-    document.body.appendChild(coringa);
-    setTimeout(() => coringa.remove(), 2000);
+   modoCoringa();        // paleta muta pro verde/roxo
+    glitchAvatar();       // avatar pisca entre Bruce e Coringa
+    criarMorcegos();      // revoada de morcegos
+    dispararRaioForte();  // relâmpagos intensos
 
-    
-   
-      criarMorcegos();        
-      dispararRaioForte();    
+    // --- Reversão depois de 3 segundos ---
+    setTimeout(() => {
+      sairCoringa();
+    }, 3000);  
       
       for (let i = 0; i < 5; i++) {
         setTimeout(criarRelampago, i * 200);

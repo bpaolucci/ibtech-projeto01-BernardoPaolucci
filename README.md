@@ -19,7 +19,7 @@ Um cartão de visita na internet com identidade visual temática Batman/Gotham C
 - Cards de mídia com efeito flip ao passar o mouse
 - Menu mobile com drawer lateral
 - Animação de entrada das seções com IntersectionObserver
-- Easter egg — clique 3 vezes no avatar
+- Easter egg — clique 7 vezes no avatar
 
 ## Como rodar
 Abrir o arquivo `index.html` no navegador.

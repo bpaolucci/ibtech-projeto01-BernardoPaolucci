@@ -3,7 +3,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  scroll-behavior: smooth;
+  
 
 }
 
@@ -21,6 +21,9 @@
   --fs-base: 1rem;
   --fs-lg: 1.5rem;
   --fs-xl: 2.5rem;
+}
+html{
+  scroll-behavior: smooth;
 }
 /* ===== Tema Claro — Mansão Wayne ===== */
 html.tema-claro {
@@ -51,7 +54,10 @@ body {
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
+  
+  transition: background-color 0.6s ease, color 0.6s ease;
 }
+
 html.tema-claro body {
   background-image: url('assets/mansao.jpg');
 }
@@ -109,7 +115,7 @@ nav a:hover{
   border: 2px solid var(--cor-terciaria);
   border-radius: 4px;
   padding: 0.1rem 0.2rem;
-  font-size: 1.5rem;
+  font-size: var(--fs-lg);
   cursor: pointer;
   transition: border-color 0.3s ease;
   margin-left: 3rem;
@@ -123,7 +129,7 @@ section{
 }
 section h2{
   font-size: var(--fs-lg);
-  color: var(--cor-secundaria);
+  color: var(--cor-primaria);
   margin-bottom: 1.5rem;
 }
 #hero{
@@ -131,6 +137,7 @@ section h2{
   padding: 4rem;
 }
 #hero h1{
+  font-size: var(--fs-xl);
   color: var(--cor-primaria);
   text-shadow: 0 0 10px var(--cor-primaria),
               0 0 20px var(--cor-primaria),
@@ -152,39 +159,40 @@ section h2{
   color: var(--cor-terciaria);
 }
 #sobre p{
-  font-size: - var(--fs-base);
+  font-size:  var(--fs-base);
   margin-bottom: 2rem;
   line-height: 1.5rem;
 }
 #habilidades h2{
 text-align: center;
 }
-@keyframes scroll-marquee{
-  0%{transform: translateX(0%);}
-  100%{transform: translateX(-100%);}
-}
-.marquee{
+.marquee {
   overflow: hidden;
-  display: flex;
- 
   width: 100%;
   height: 50px;
-  
 }
 
-.marquee ul{
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: scroll-marquee 20s linear infinite;
+}
+
+.marquee ul {
   display: flex;
   gap: 2rem;
   list-style-type: none;
-  animation: scroll-marquee 20s linear infinite; 
   padding-right: 2rem;
-  flex-shrink: 0;
-  min-width: 100%;
-  
+  margin: 0;
+}
+
+@keyframes scroll-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 .marquee li{
   font-weight: 700;
-  font-size: 1.65rem;
+  font-size: var(--fs-lg);
   padding: 0.5rem 1rem;
   color: var(--cor-terciaria);
   white-space: nowrap;
@@ -198,19 +206,7 @@ text-align: center;
   margin-left: calc(-2rem);
   margin-right: calc(-2rem);
 }
-.cards-container {
-  display: flex;
-  justify-content: center;
-  gap: 10rem;
-  width: 100%;
-}
-.cards-container {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  width: 100%;
-  margin: 0 auto;
-}
+
 #midia h2{
   text-align: center;
 }
@@ -287,7 +283,7 @@ text-align: center;
 
 #contato li{
   margin-bottom: 1rem;
-  color: var(--cor-primaria);
+  color: var(--cor-texto);
   
   font-size: var(--fs-lg);
 }
@@ -314,6 +310,12 @@ text-align: center;
 }
 #contato button:hover {
   background-color: var(--cor-secundaria);
+}
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--cor-primaria);
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 /* ===== Footer ===== */
 footer {
@@ -372,7 +374,7 @@ footer {
   background: none;
   border: 2px solid var(--cor-primaria);
   color: var(--cor-primaria);
-  font-size: 1.5rem;
+  font-size: var(--fs-lg);
   padding: 0.3rem 0.8rem;
   cursor: pointer;
 }
@@ -382,6 +384,14 @@ footer {
   nav ul.menu-aberto {
     left: 0;
   }
+}
+
+@media (max-width: 480px) {
+  #hero { padding: 2rem 1rem; }
+  #hero h1 { font-size: var(--fs-lg); }
+  section { padding: 2rem 0; }
+  .marquee li { font-size: 1rem; padding: 0.4rem 0.8rem; }
+  #midia .card { width: 100%; max-width: 280px; height: 380px; }
 }
 
 
